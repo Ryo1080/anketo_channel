@@ -37,10 +37,15 @@
 
 <script>
 import CreateAnketoDialog from "~/components/CreateAnketoDialog.vue";
+import axios from 'axios'
 
 export default {
   components: {
     CreateAnketoDialog,
+  },
+  async asyncData({ params }) {
+    const { data } = await axios.get('http://localhost:3000/api/v1/anketo')
+    return { anketos: data.anketos }
   },
   data() {
     return {
