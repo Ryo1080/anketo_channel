@@ -1,12 +1,11 @@
 <template>
   <div>
-    <chart></chart>
+    <chart :chartLabels="optionNames" :chartData="voteCounts"></chart>
     <v-container>
       <v-radio-group v-model="row" row>
-        <v-radio label="Option 1" value="radio-1"></v-radio>
-        <v-radio label="Option 2" value="radio-2"></v-radio>
-        <v-radio label="Option 3" value="radio-3"></v-radio>
-        <v-radio label="Option 4" value="radio-4"></v-radio>
+        <v-list v-for="(option, index) in anketo.options" :key="index">
+          <v-radio :label="option.option" :value="option.id"></v-radio>
+        </v-list>
       </v-radio-group>
     </v-container>
     <v-container>
@@ -41,11 +40,30 @@
 <script>
 import Chart from "~/components/Chart";
 import CreateCommentDialog from "~/components/CreateCommentDialog.vue";
+import axios from "axios";
 
 export default {
   components: {
     Chart,
     CreateCommentDialog,
+  },
+  async asyncData({ params }) {
+    const { data } = await axios.get(
+      `http://localhost:3000/api/v1/anketo/${params.id}`
+    );
+    return { anketo: data };
+  },
+  computed: {
+    optionNames: function () {
+      return this.anketo.options.map(function (option) {
+        return option.option;
+      });
+    },
+    voteCounts: function () {
+      return this.anketo.options.map(function (option) {
+        return option.votes;
+      });
+    },
   },
   data() {
     return {

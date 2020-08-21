@@ -2,15 +2,20 @@
 import { HorizontalBar } from "vue-chartjs";
 
 export default {
+  props: ["chartLabels", "chartData"],
+  mounted() {
+    this.$refs.canvas.height = this.data.labels.length * 40;
+    this.renderChart(this.data, this.options);
+  },
   extends: HorizontalBar,
   name: "horizontal-bar-chart",
   data() {
     return {
       data: {
-        labels: ["January", "February", "March", "April"],
+        labels: this.chartLabels,
         datasets: [
           {
-            data: [10, 20, 30, 40],
+            data: this.chartData,
             backgroundColor: [
               "rgba(255, 99, 132, 0.2)",
               "rgba(54, 162, 235, 0.2)",
@@ -54,10 +59,6 @@ export default {
         },
       },
     };
-  },
-  mounted() {
-    this.$refs.canvas.height = this.data.labels.length * 40;
-    this.renderChart(this.data, this.options);
   },
 };
 </script>

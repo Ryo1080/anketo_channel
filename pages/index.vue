@@ -1,27 +1,23 @@
 <template>
   <div>
-    <v-layout column justify-center align-center>
-      <v-flex xs12 sm8 md6>
-        <v-list three-line>
-          <template v-for="(item, index) in items">
-            <v-subheader v-if="item.header" :key="item.header" v-text="item.header"></v-subheader>
+    <v-container>
+      <v-list three-line>
+        <v-subheader v-text="listTitle"></v-subheader>
+        <template v-for="(anketo, index) in anketos">
+          <v-list-item :key="'anketo' + anketo.id" @click="navigateAnketoPage(anketo.id)">
+            <v-list-item-avatar tile>
+              <v-img :src="imagePath"></v-img>
+            </v-list-item-avatar>
 
-            <v-divider v-else-if="item.divider" :key="index" :inset="item.inset"></v-divider>
-
-            <v-list-item v-else :key="item.title" @click="navigateAnketoPage">
-              <v-list-item-avatar tile>
-                <v-img :src="item.avatar"></v-img>
-              </v-list-item-avatar>
-
-              <v-list-item-content>
-                <v-list-item-title v-html="item.title"></v-list-item-title>
-                <v-list-item-subtitle v-html="item.subtitle"></v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-          </template>
-        </v-list>
-      </v-flex>
-    </v-layout>
+            <v-list-item-content>
+              <v-list-item-title v-html="anketo.title"></v-list-item-title>
+              <v-list-item-subtitle v-html="anketo.description"></v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+          <v-divider :key="index" :inset="true"></v-divider>
+        </template>
+      </v-list>
+    </v-container>
     <v-btn
       rounded
       color="primary"
@@ -37,60 +33,25 @@
 
 <script>
 import CreateAnketoDialog from "~/components/CreateAnketoDialog.vue";
-import axios from 'axios'
+import axios from "axios";
 
 export default {
   components: {
     CreateAnketoDialog,
   },
   async asyncData({ params }) {
-    const { data } = await axios.get('http://localhost:3000/api/v1/anketo')
-    return { anketos: data.anketos }
+    const { data } = await axios.get("http://localhost:3000/api/v1/anketo");
+    return { anketos: data.anketos };
   },
   data() {
     return {
-      items: [
-        { header: "アンケートリスト" },
-        {
-          avatar: "https://cdn.vuetifyjs.com/images/lists/1.jpg",
-          title: "Brunch this weekend?",
-          subtitle:
-            "<span class='text--primary'>Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
-        },
-        { divider: true, inset: true },
-        {
-          avatar: "https://cdn.vuetifyjs.com/images/lists/2.jpg",
-          title: 'Summer BBQ <span class="grey--text text--lighten-1">4</span>',
-          subtitle:
-            "<span class='text--primary'>to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.",
-        },
-        { divider: true, inset: true },
-        {
-          avatar: "https://cdn.vuetifyjs.com/images/lists/3.jpg",
-          title: "Oui oui",
-          subtitle:
-            "<span class='text--primary'>Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?",
-        },
-        { divider: true, inset: true },
-        {
-          avatar: "https://cdn.vuetifyjs.com/images/lists/4.jpg",
-          title: "Birthday gift",
-          subtitle:
-            "<span class='text--primary'>Trevor Hansen</span> &mdash; Have any ideas about what we should get Heidi for her birthday?",
-        },
-        { divider: true, inset: true },
-        {
-          avatar: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
-          title: "Recipe to try",
-          subtitle:
-            "<span class='text--primary'>Britta Holt</span> &mdash; We should eat this: Grate, Squash, Corn, and tomatillo Tacos.",
-        },
-      ],
+      listTitle: "アンケートリスト",
+      imagePath: "https://cdn.vuetifyjs.com/images/lists/1.jpg",
     };
   },
   methods: {
-    navigateAnketoPage: function () {
-      this.$router.push("/anketo");
+    navigateAnketoPage: function (anketoId) {
+      this.$router.push(`/anketos/${anketoId}`);
     },
     toggleCreateAnketoDialog: function () {
       this.$refs.createAnketoDialog.toggle();
