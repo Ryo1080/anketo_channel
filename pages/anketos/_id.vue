@@ -2,21 +2,19 @@
   <div>
     <chart :chartLabels="optionNames" :chartData="voteCounts"></chart>
     <v-container>
-      <v-radio-group v-model="row" row>
+      <v-radio-group v-model="selectedOption">
         <v-list v-for="(option, index) in anketo.options" :key="index">
           <v-radio :label="option.option" :value="option.id"></v-radio>
         </v-list>
       </v-radio-group>
     </v-container>
     <v-container>
-      <v-btn>投票する</v-btn>
+      <v-btn @click="executeVote">投票する</v-btn>
     </v-container>
     <hr />
     <template v-for="(item, index) in items">
       <v-subheader v-if="item.header" :key="item.header" v-text="item.header"></v-subheader>
-
       <v-divider v-else-if="item.divider" :key="index" :inset="item.inset"></v-divider>
-
       <v-list-item v-else :key="item.title">
         <v-list-item-content>
           <v-list-item-title v-html="item.title"></v-list-item-title>
@@ -67,7 +65,7 @@ export default {
   },
   data() {
     return {
-      row: null,
+      selectedOption: null,
       items: [
         { header: "コメント一覧" },
         {
@@ -105,6 +103,13 @@ export default {
   methods: {
     toggleCreateCommentDialog: function () {
       this.$refs.createCommentDialog.toggle();
+    },
+    executeVote: async function () {
+      await axios.post("http://localhost:3000/api/v1/vote", {
+        option_id: this.selectedOption,
+        ip: "test_id",
+      });
+      location.reload();
     },
   },
 };
