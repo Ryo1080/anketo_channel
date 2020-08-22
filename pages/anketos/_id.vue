@@ -12,7 +12,7 @@
       <v-btn @click="executeVote">投票する</v-btn>
     </v-container>
     <hr />
-    <comment-area></comment-area>
+    <comment-list></comment-list>
     <v-btn
       rounded
       color="primary"
@@ -28,14 +28,14 @@
 
 <script>
 import Chart from "~/components/Chart";
-import CommentArea from "~/components/CommentArea.vue";
+import CommentList from "~/components/CommentList.vue";
 import CreateCommentDialog from "~/components/CreateCommentDialog.vue";
 import axios from "axios";
 
 export default {
   components: {
     Chart,
-    CommentArea,
+    CommentList,
     CreateCommentDialog,
   },
   async asyncData({ params }) {
