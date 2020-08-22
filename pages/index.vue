@@ -3,7 +3,7 @@
     <v-container>
       <v-list three-line>
         <v-subheader v-text="listTitle"></v-subheader>
-        <template v-for="(anketo, index) in anketos">
+        <div v-for="(anketo, index) in anketos" :key="index">
           <v-list-item :key="'anketo' + anketo.id" @click="navigateAnketoPage(anketo.id)">
             <v-list-item-avatar tile>
               <v-img :src="imagePath"></v-img>
@@ -15,7 +15,7 @@
             </v-list-item-content>
           </v-list-item>
           <v-divider :key="index" :inset="true"></v-divider>
-        </template>
+        </div>
       </v-list>
     </v-container>
     <v-btn

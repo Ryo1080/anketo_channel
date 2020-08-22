@@ -1,14 +1,14 @@
 <template>
   <div>
-    <chart :chartLabels="optionNames" :chartData="voteCounts"></chart>
     <v-container>
+      <chart :chartLabels="optionNames" :chartData="voteCounts"></chart>
       <v-radio-group v-model="selectedOption">
-        <v-list v-for="(option, index) in anketo.options" :key="index">
-          <v-radio :label="option.option" :value="option.id"></v-radio>
+        <v-list>
+          <v-list-item v-for="(option, index) in anketo.options" :key="index">
+            <v-radio :label="option.option" :value="option.id"></v-radio>
+          </v-list-item>
         </v-list>
       </v-radio-group>
-    </v-container>
-    <v-container>
       <v-btn @click="executeVote">投票する</v-btn>
     </v-container>
     <hr />
