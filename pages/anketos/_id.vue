@@ -12,7 +12,7 @@
       <v-btn @click="executeVote">投票する</v-btn>
     </v-container>
     <hr />
-    <comment-list></comment-list>
+    <comment-list :comments="comments"></comment-list>
     <v-btn
       rounded
       color="primary"
@@ -39,10 +39,16 @@ export default {
     CreateCommentDialog,
   },
   async asyncData({ params }) {
-    const { data } = await axios.get(
+    const anketoResponse = await axios.get(
       `http://localhost:3000/api/v1/anketo/${params.id}`
     );
-    return { anketo: data };
+    const commentsResponse = await axios.get(
+      `http://localhost:3000/api/v1/anketo/1/comment`
+    );
+    return {
+      anketo: anketoResponse.data,
+      comments: commentsResponse.data.comments,
+    };
   },
   computed: {
     optionNames: function () {
