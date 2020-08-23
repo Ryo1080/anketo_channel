@@ -47,7 +47,8 @@ export default {
         description: this.description,
         anketo_options: this.optionValues,
       });
-      location.reload();
+      this.toggle();
+      this.$emit("update-anketos");
     }
   },
 };

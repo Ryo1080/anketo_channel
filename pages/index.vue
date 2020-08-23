@@ -27,20 +27,21 @@
       large
       @click="toggleCreateAnketoDialog"
     >アンケート作成</v-btn>
-    <create-anketo-dialog ref="createAnketoDialog"></create-anketo-dialog>
+    <create-anketo-dialog ref="createAnketoDialog" @update-anketos="updateAnketos"></create-anketo-dialog>
   </div>
 </template>
 
 <script>
 import CreateAnketoDialog from "~/components/CreateAnketoDialog.vue";
 import axios from "axios";
+const baseUrl = "http://localhost:3000/api/v1";
 
 export default {
   components: {
     CreateAnketoDialog,
   },
   async asyncData({ params }) {
-    const { data } = await axios.get("http://localhost:3000/api/v1/anketo");
+    const { data } = await axios.get(`${baseUrl}/anketo`);
     return { anketos: data.anketos };
   },
   data() {
@@ -55,6 +56,10 @@ export default {
     },
     toggleCreateAnketoDialog: function () {
       this.$refs.createAnketoDialog.toggle();
+    },
+    updateAnketos: async function () {
+      const { data } = await axios.get(`${baseUrl}/anketo`);
+      this.anketos = data.anketos;
     },
   },
 };

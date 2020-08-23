@@ -31,6 +31,7 @@ import Chart from "~/components/Chart";
 import CommentList from "~/components/CommentList.vue";
 import CreateCommentDialog from "~/components/CreateCommentDialog.vue";
 import axios from "axios";
+const baseUrl = "http://localhost:3000/api/v1";
 
 export default {
   components: {
@@ -39,11 +40,9 @@ export default {
     CreateCommentDialog,
   },
   async asyncData({ params }) {
-    const anketoResponse = await axios.get(
-      `http://localhost:3000/api/v1/anketo/${params.id}`
-    );
+    const anketoResponse = await axios.get(`${baseUrl}/anketo/${params.id}`);
     const commentsResponse = await axios.get(
-      `http://localhost:3000/api/v1/anketo/${params.id}/comment`
+      `${baseUrl}/anketo/${params.id}/comment`
     );
     return {
       anketo: anketoResponse.data,
@@ -72,15 +71,15 @@ export default {
       this.$refs.createCommentDialog.toggle();
     },
     executeVote: async function () {
-      await axios.post("http://localhost:3000/api/v1/vote", {
+      await axios.post(`${baseUrl}/vote`, {
         option_id: this.selectedOption,
         ip: "test_id",
       });
       location.reload();
     },
-    updateComments: async function (comments) {
+    updateComments: async function () {
       const commentsResponse = await axios.get(
-        `http://localhost:3000/api/v1/anketo/${this.$route.params.id}/comment`
+        `${baseUrl}/anketo/${this.$route.params.id}/comment`
       );
       this.comments = commentsResponse.data.comments;
     },
