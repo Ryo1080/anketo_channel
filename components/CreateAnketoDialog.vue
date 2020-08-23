@@ -5,37 +5,50 @@
       <v-container>
         <v-row class="mx-2">
           <v-col cols="12">
-            <v-text-field label="タイトル" single-line></v-text-field>
+            <v-text-field v-model="title" label="タイトル" single-line></v-text-field>
           </v-col>
           <v-col cols="12">
-            <v-textarea filled name="input" label="説明文" value hint></v-textarea>
+            <v-textarea v-model="description" filled name="input" label="説明文" value hint></v-textarea>
           </v-col>
-          <v-col cols="12" v-for="option in anketoOptions" :key="option">
-            <v-text-field :placeholder="option"></v-text-field>
+          <v-col cols="12" v-for="(label, index) in optionLabels" :key="index">
+            <v-text-field v-model="optionValues[index]" :placeholder="label"></v-text-field>
           </v-col>
         </v-row>
       </v-container>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn text color="primary" @click="createAnketoDialog = false">Cancel</v-btn>
-        <v-btn text @click="createAnketoDialog = false">Save</v-btn>
+        <v-btn text color="primary" @click="createAnketoDialog = false">キャンセル</v-btn>
+        <v-btn text @click="createAnketo">作成</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
       createAnketoDialog: false,
-      anketoOptions: ["選択肢1", "選択肢2", "選択肢3", "選択肢4"],
+      title: "",
+      description: "",
+      optionLabels: ["選択肢1", "選択肢2", "選択肢3", "選択肢4"],
+      optionValues: ["", "", "", ""],
     };
   },
   methods: {
     toggle: function () {
       this.createAnketoDialog = !this.createAnketoDialog;
     },
+    createAnketo: async function () {
+      await axios.post("http://localhost:3000/api/v1/anketo", {
+        title: this.title,
+        description: this.description,
+        anketo_options: this.optionValues,
+      });
+      location.reload();
+    }
   },
 };
 </script>

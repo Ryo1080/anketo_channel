@@ -43,7 +43,7 @@ export default {
       `http://localhost:3000/api/v1/anketo/${params.id}`
     );
     const commentsResponse = await axios.get(
-      `http://localhost:3000/api/v1/anketo/1/comment`
+      `http://localhost:3000/api/v1/anketo/${params.id}/comment`
     );
     return {
       anketo: anketoResponse.data,
