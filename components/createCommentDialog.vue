@@ -11,8 +11,8 @@
       </v-container>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn text color="primary" @click="createCommentDialog = false">Cancel</v-btn>
-        <v-btn text @click="createComment">Save</v-btn>
+        <v-btn text color="primary" @click="createCommentDialog = false">キャンセル</v-btn>
+        <v-btn text @click="createComment">投稿する</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -39,7 +39,8 @@ export default {
           comment: this.comment,
         }
       );
-      location.reload();
+      this.toggle();
+      this.$emit("update-comments");
     },
   },
 };

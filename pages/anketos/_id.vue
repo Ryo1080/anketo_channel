@@ -22,7 +22,7 @@
       large
       @click="toggleCreateCommentDialog"
     >コメントする</v-btn>
-    <create-comment-dialog ref="createCommentDialog"></create-comment-dialog>
+    <create-comment-dialog ref="createCommentDialog" @update-comments="updateComments"></create-comment-dialog>
   </div>
 </template>
 
@@ -77,6 +77,12 @@ export default {
         ip: "test_id",
       });
       location.reload();
+    },
+    updateComments: async function (comments) {
+      const commentsResponse = await axios.get(
+        `http://localhost:3000/api/v1/anketo/${this.$route.params.id}/comment`
+      );
+      this.comments = commentsResponse.data.comments;
     },
   },
 };
