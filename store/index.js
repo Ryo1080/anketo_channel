@@ -14,8 +14,8 @@ const createStore = () => {
       updateAnketos: function(state, payload) {
         state.anketos = payload;
       },
-      updateComments: function(state, payload) {
-        state.comments = payload;
+      updateComments: function(state, comments) {
+        state.comments = comments;
       }
     },
     actions: {
@@ -25,9 +25,9 @@ const createStore = () => {
       createAnketosAction(context, payload) {
         context.commit("updateMessage", payload);
       },
-      async getCommentsAction(context, payload) {
+      async getCommentsAction(context, params) {
         const commentsResponse = await axios.get(
-          `${baseUrl}/anketo/${payload.id}/comment`
+          `${baseUrl}/anketo/${params.id}/comment`
         );
         context.commit("updateComments", commentsResponse.data.comments);
       },
