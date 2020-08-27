@@ -28,6 +28,7 @@
       @click="toggleCreateAnketoDialog"
     >アンケート作成</v-btn>
     <create-anketo-dialog ref="createAnketoDialog" @update-anketos="updateAnketos"></create-anketo-dialog>
+    <search-dialog ref="searchDialog" @update-anketos="updateAnketos($event)"></search-dialog>
   </div>
 </template>
 
@@ -60,6 +61,9 @@ export default {
     updateAnketos: async function () {
       const { data } = await axios.get(`${baseUrl}/anketo`);
       this.anketos = data.anketos;
+    },
+    updateAnketos: function (anketos) {
+      console.log("test");
     },
   },
 };
