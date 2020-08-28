@@ -4,7 +4,7 @@
       <chart :chartLabels="optionNames" :chartData="voteCounts"></chart>
       <v-radio-group v-model="selectedOption">
         <v-list>
-          <v-list-item v-for="(option, index) in anketo.options" :key="index">
+          <v-list-item v-for="(option, index) in $store.state.anketo.options" :key="index">
             <v-radio :label="option.option" :value="option.id"></v-radio>
           </v-list-item>
         </v-list>
@@ -30,8 +30,6 @@
 import Chart from "~/components/Chart";
 import CommentList from "~/components/CommentList.vue";
 import CreateCommentDialog from "~/components/CreateCommentDialog.vue";
-import axios from "axios";
-const baseUrl = "http://localhost:3000/api/v1";
 
 export default {
   components: {
@@ -40,20 +38,17 @@ export default {
     CreateCommentDialog,
   },
   async asyncData({ params, store }) {
-    const anketoResponse = await axios.get(`${baseUrl}/anketo/${params.id}`);
+    await store.dispatch("getAnketoAction", params);
     await store.dispatch("getCommentsAction", params);
-    return {
-      anketo: anketoResponse.data,
-    };
   },
   computed: {
     optionNames: function () {
-      return this.anketo.options.map(function (option) {
+      return this.$store.state.anketo.options.map(function (option) {
         return option.option;
       });
     },
     voteCounts: function () {
-      return this.anketo.options.map(function (option) {
+      return this.$store.state.anketo.options.map(function (option) {
         return option.votes;
       });
     },
@@ -68,10 +63,7 @@ export default {
       this.$refs.createCommentDialog.toggle();
     },
     executeVote: async function () {
-      await axios.post(`${baseUrl}/vote`, {
-        option_id: this.selectedOption,
-        ip: "test_id",
-      });
+      await this.$store.dispatch("executeVote", this.selectedOption);
       location.reload();
     },
   },
