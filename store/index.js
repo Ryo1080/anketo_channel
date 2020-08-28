@@ -25,14 +25,23 @@ const createStore = () => {
       createAnketosAction(context, payload) {
         context.commit("updateMessage", payload);
       },
-      async getCommentsAction(context, params) {
+      async getCommentsAction(context, payload) {
         const commentsResponse = await axios.get(
-          `${baseUrl}/anketo/${params.id}/comment`
+          `${baseUrl}/anketo/${payload.id}/comment`
         );
         context.commit("updateComments", commentsResponse.data.comments);
       },
-      createCommentsAction(context, payload) {
-        context.commit("updateComments", payload);
+      async createCommentsAction(context, payload) {
+        await axios.post(
+          `http://localhost:3000/api/v1/anketo/${payload.anketoId}/comment`,
+          {
+            comment: payload.comment
+          }
+        );
+        const commentsResponse = await axios.get(
+          `${baseUrl}/anketo/${payload.anketoId}/comment`
+        );
+        context.commit("updateComments", commentsResponse.data.comments);
       }
     }
   });

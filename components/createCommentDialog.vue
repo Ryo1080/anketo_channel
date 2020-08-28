@@ -19,8 +19,6 @@
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   data() {
     return {
@@ -33,14 +31,12 @@ export default {
       this.createCommentDialog = !this.createCommentDialog;
     },
     createComment: async function () {
-      await axios.post(
-        `http://localhost:3000/api/v1/anketo/${this.$route.params.id}/comment`,
-        {
-          comment: this.comment,
-        }
-      );
+      const payload = {
+        anketoId: this.$route.params.id,
+        comment: this.comment,
+      };
+      await this.$store.dispatch("createCommentsAction", payload);
       this.toggle();
-      this.$emit("update-comments");
     },
   },
 };
