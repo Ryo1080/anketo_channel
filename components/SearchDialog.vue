@@ -43,8 +43,6 @@
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   data() {
     return {
@@ -76,17 +74,12 @@ export default {
       this.searchDialog = !this.searchDialog;
     },
     search: async function () {
-      const anketoResponse = await axios.get(
-        "http://localhost:3000/api/v1/anketo/search",
-        {
-          params: {
-            keyword: this.keyword,
-            sortId: this.sortId,
-            categoryId: this.categoryId,
-          },
-        }
-      );
-      console.log(anketoResponse.data);
+      const payload = {
+        keyword: this.keyword,
+        sortId: this.sortId,
+        categoryId: this.categoryId,
+      };
+      await this.$store.dispatch("searchAnketosAction", payload);
       this.toggle();
     },
   },
