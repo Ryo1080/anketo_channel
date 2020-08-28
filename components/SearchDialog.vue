@@ -88,7 +88,6 @@ export default {
       );
       console.log(anketoResponse.data);
       this.toggle();
-      this.$emit("update-anketos", anketoResponse.data);
     },
   },
 };

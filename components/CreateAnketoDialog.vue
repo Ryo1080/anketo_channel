@@ -42,14 +42,14 @@ export default {
       this.createAnketoDialog = !this.createAnketoDialog;
     },
     createAnketo: async function () {
-      await axios.post("http://localhost:3000/api/v1/anketo", {
+      const payload = {
         title: this.title,
         description: this.description,
-        anketo_options: this.optionValues,
-      });
+        anketoOptions: this.optionValues,
+      };
+      await this.$store.dispatch("createAnketosAction", payload);
       this.toggle();
-      this.$emit("update-anketos");
-    }
+    },
   },
 };
 </script>
