@@ -39,7 +39,9 @@ export default {
     CreateAnketoDialog,
   },
   async asyncData({ params, store }) {
-    await store.dispatch("getAnketosAction");
+    if (!store.state.anketos.length) {
+      await store.dispatch("getAnketosAction");
+    }
   },
   data() {
     return {
