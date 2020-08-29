@@ -27,8 +27,14 @@
 
           <v-card-text>
             <h2 class="title mb-2">カテゴリ選択</h2>
-            <v-chip-group column mandatory v-model="categoryId">
-              <v-chip filter outlined v-for="category in categories" :key="category">{{ category }}</v-chip>
+            <v-chip-group column mandatory>
+              <v-chip
+                filter
+                outlined
+                v-for="category in categories"
+                :key="category.categoryId"
+                @click="selectCategory(category.categoryId)"
+              >{{ category.categoryName }}</v-chip>
             </v-chip-group>
           </v-card-text>
         </v-row>
@@ -55,16 +61,16 @@ export default {
       ],
       sortId: 0,
       categories: [
-        "すべて",
-        "恋愛・結婚",
-        "芸能",
-        "仕事",
-        "漫画・アニメ・本",
-        "音楽",
-        "政治・経済",
-        "生活",
-        "スポーツ ",
-        "その他",
+        { categoryName: "すべて", categoryId: 0 },
+        { categoryName: "恋愛・結婚", categoryId: 1 },
+        { categoryName: "芸能", categoryId: 2 },
+        { categoryName: "仕事", categoryId: 3 },
+        { categoryName: "漫画・アニメ・本", categoryId: 4 },
+        { categoryName: "音楽", categoryId: 5 },
+        { categoryName: "政治・経済", categoryId: 6 },
+        { categoryName: "生活", categoryId: 7 },
+        { categoryName: "スポーツ", categoryId: 8 },
+        { categoryName: "その他", categoryId: 99 },
       ],
       categoryId: 0,
     };
@@ -72,6 +78,9 @@ export default {
   methods: {
     toggle: function () {
       this.searchDialog = !this.searchDialog;
+    },
+    selectCategory: function (categoryId) {
+      this.categoryId = categoryId;
     },
     search: async function () {
       const payload = {

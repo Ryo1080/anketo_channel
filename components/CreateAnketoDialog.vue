@@ -44,6 +44,7 @@ export default {
         title: this.title,
         description: this.description,
         anketoOptions: this.optionValues,
+        categoryId: 99,
       };
       await this.$store.dispatch("createAnketosAction", payload);
       this.toggle();

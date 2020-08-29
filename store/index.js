@@ -37,7 +37,8 @@ const createStore = () => {
         await axios.post(`${baseUrl}/anketo`, {
           title: payload.title,
           description: payload.description,
-          anketo_options: payload.anketoOptions
+          anketoOptions: payload.anketoOptions,
+          categoryId: payload.categoryId
         });
         const { data } = await axios.get(`${baseUrl}/anketo`);
         context.commit("updateAnketos", data.anketos);
@@ -69,7 +70,7 @@ const createStore = () => {
       },
       async executeVote(context, selectedOption) {
         await axios.post(`${baseUrl}/vote`, {
-          option_id: selectedOption,
+          optionId: selectedOption,
           ip: "test_id"
         });
       }
