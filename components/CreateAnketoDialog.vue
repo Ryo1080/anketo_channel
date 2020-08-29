@@ -10,9 +10,11 @@
           <v-col cols="12">
             <v-textarea v-model="description" filled name="input" label="説明文" value hint></v-textarea>
           </v-col>
-          <v-col cols="12" v-for="(label, index) in optionLabels" :key="index">
-            <v-text-field v-model="optionValues[index]" :placeholder="label"></v-text-field>
+          <v-col cols="12" v-for="(value, index) in optionValues" :key="index">
+            <v-text-field v-model="optionValues[index]" :placeholder="'選択肢' + (index + 1)"></v-text-field>
           </v-col>
+          <v-btn class="ma-2" outlined color="indigo" @click="addOption">選択肢追加</v-btn>
+          <v-btn class="ma-2" outlined color="error" @click="removeOption">選択肢削除</v-btn>
         </v-row>
 
         <v-card-text>
@@ -44,7 +46,6 @@ export default {
       createAnketoDialog: false,
       title: "",
       description: "",
-      optionLabels: ["選択肢1", "選択肢2", "選択肢3", "選択肢4"],
       optionValues: ["", "", "", ""],
       categories: [
         { categoryName: "恋愛・結婚", categoryId: 1 },
@@ -76,6 +77,12 @@ export default {
       };
       await this.$store.dispatch("createAnketosAction", payload);
       this.toggle();
+    },
+    addOption: function () {
+      this.optionValues.push("");
+    },
+    removeOption: function () {
+      this.optionValues.pop();
     },
   },
 };
