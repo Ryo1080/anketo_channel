@@ -57,8 +57,7 @@ export default {
       valid: false,
       keyword: "",
       keywordRule: [
-        (v) =>
-          (v && v.length <= 250) || "キーワードは250文字以内で入力して下さい",
+        (v) => v.length <= 250 || "キーワードは250文字以内で入力して下さい",
       ],
       sortTypes: [
         { sortName: "新着", sortId: 0 },

@@ -64,7 +64,7 @@ export default {
       ],
       description: "",
       descriptionRule: [
-        (v) => (v && v.length <= 250) || "説明文は250文字以内で入力して下さい",
+        (v) => v.length <= 250 || "説明文は250文字以内で入力して下さい",
       ],
       optionValues: ["", ""],
       optionRule: [
