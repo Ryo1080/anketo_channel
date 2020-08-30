@@ -6,7 +6,7 @@
         <div v-for="(anketo, index) in $store.state.anketos" :key="index">
           <v-list-item :key="'anketo' + anketo.id" @click="navigateAnketoPage(anketo.id)">
             <v-list-item-avatar tile>
-              <v-img :src="imagePath"></v-img>
+              <v-img :src="defaultImage"></v-img>
             </v-list-item-avatar>
 
             <v-list-item-content>
@@ -46,7 +46,7 @@ export default {
   data() {
     return {
       listTitle: "アンケートリスト",
-      imagePath: "https://cdn.vuetifyjs.com/images/lists/1.jpg",
+      defaultImage: require("@/assets/graph07_bou2.png"),
     };
   },
   methods: {
