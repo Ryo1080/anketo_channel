@@ -2,16 +2,28 @@
   <v-dialog v-model="createAnketoDialog" width="800px">
     <v-card>
       <v-card-title class="grey darken-2">アンケートを作成する</v-card-title>
-      <v-container>
+      <v-form ref="form" v-model="valid">
         <v-row class="mx-2">
           <v-col cols="12">
-            <v-text-field v-model="title" label="タイトル" single-line></v-text-field>
+            <v-text-field v-model="title" label="タイトル" :rules="titleRule" single-line></v-text-field>
           </v-col>
           <v-col cols="12">
-            <v-textarea v-model="description" filled name="input" label="説明文" value hint></v-textarea>
+            <v-textarea
+              v-model="description"
+              filled
+              name="input"
+              label="説明文"
+              :rules="descriptionRule"
+              value
+              hint
+            ></v-textarea>
           </v-col>
           <v-col cols="12" v-for="(value, index) in optionValues" :key="index">
-            <v-text-field v-model="optionValues[index]" :placeholder="'選択肢' + (index + 1)"></v-text-field>
+            <v-text-field
+              v-model="optionValues[index]"
+              :placeholder="'選択肢' + (index + 1)"
+              :rules="optionRule"
+            ></v-text-field>
           </v-col>
           <v-btn class="ma-2" outlined color="indigo" @click="addOption">選択肢追加</v-btn>
           <v-btn class="ma-2" outlined color="error" @click="removeOption">選択肢削除</v-btn>
@@ -29,11 +41,11 @@
             >{{ category.categoryName }}</v-chip>
           </v-chip-group>
         </v-card-text>
-      </v-container>
+      </v-form>
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn text color="primary" @click="createAnketoDialog = false">キャンセル</v-btn>
-        <v-btn text @click="createAnketo">作成</v-btn>
+        <v-btn text @click="validate">作成</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -44,9 +56,22 @@ export default {
   data() {
     return {
       createAnketoDialog: false,
+      valid: false,
       title: "",
+      titleRule: [
+        (v) => !!v || "タイトルは必須です",
+        (v) => (v && v.length <= 50) || "タイトルは50文字以内で入力して下さい",
+      ],
       description: "",
-      optionValues: ["", "", "", ""],
+      descriptionRule: [
+        (v) => (v && v.length <= 250) || "説明文は250文字以内で入力して下さい",
+      ],
+      optionValues: ["", ""],
+      optionRule: [
+        (v) => !!v || "オプション名は必須です",
+        (v) =>
+          (v && v.length <= 50) || "オプション名は50文字以内で入力して下さい",
+      ],
       categories: [
         { categoryName: "恋愛・結婚", categoryId: 1 },
         { categoryName: "芸能", categoryId: 2 },
@@ -68,6 +93,21 @@ export default {
     selectCategory: function (categoryId) {
       this.categoryId = categoryId;
     },
+    addOption: function () {
+      if (this.optionValues.length < 8) {
+        this.optionValues.push("");
+      }
+    },
+    removeOption: function () {
+      if (this.optionValues.length > 1) {
+        this.optionValues.pop();
+      }
+    },
+    validate: function () {
+      if (this.$refs.form.validate()) {
+        this.createAnketo();
+      }
+    },
     createAnketo: async function () {
       const payload = {
         title: this.title,
@@ -77,12 +117,6 @@ export default {
       };
       await this.$store.dispatch("createAnketosAction", payload);
       this.toggle();
-    },
-    addOption: function () {
-      this.optionValues.push("");
-    },
-    removeOption: function () {
-      this.optionValues.pop();
     },
   },
 };

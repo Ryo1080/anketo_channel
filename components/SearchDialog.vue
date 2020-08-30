@@ -2,7 +2,7 @@
   <v-dialog v-model="searchDialog" width="800px">
     <v-card>
       <v-card-title class="grey darken-2">検索</v-card-title>
-      <v-container>
+      <v-form ref="form" v-model="valid">
         <v-row class="mx-2">
           <v-col cols="12">
             <v-text-field
@@ -11,6 +11,7 @@
               hide-details
               prepend-inner-icon="mdi-magnify"
               v-model="keyword"
+              :rules="keywordRule"
               label="キーワード"
             ></v-text-field>
           </v-col>
@@ -38,11 +39,11 @@
             </v-chip-group>
           </v-card-text>
         </v-row>
-      </v-container>
+      </v-form>
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn text color="primary" @click="searchDialog = false">キャンセル</v-btn>
-        <v-btn text @click="search">実行</v-btn>
+        <v-btn text @click="validate">実行</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -53,7 +54,12 @@ export default {
   data() {
     return {
       searchDialog: false,
+      valid: false,
       keyword: "",
+      keywordRule: [
+        (v) =>
+          (v && v.length <= 250) || "キーワードは250文字以内で入力して下さい",
+      ],
       sortTypes: [
         { sortName: "新着", sortId: 0 },
         { sortName: "人気(１ヶ月)", sortId: 1 },
@@ -81,6 +87,11 @@ export default {
     },
     selectCategory: function (categoryId) {
       this.categoryId = categoryId;
+    },
+    validate: function () {
+      if (this.$refs.form.validate()) {
+        this.search();
+      }
     },
     search: async function () {
       const payload = {
