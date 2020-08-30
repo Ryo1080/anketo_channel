@@ -12,11 +12,19 @@
               v-model="description"
               filled
               name="input"
-              label="説明文"
+              label="説明文(任意)"
               :rules="descriptionRule"
               value
               hint
             ></v-textarea>
+          </v-col>
+          <v-col>
+            <v-file-input
+              accept="image/*"
+              label="画像(任意)"
+              prepend-icon="mdi-image"
+              @change="pickImage"
+            ></v-file-input>
           </v-col>
           <v-col cols="12" v-for="(value, index) in optionValues" :key="index">
             <v-text-field
@@ -66,6 +74,7 @@ export default {
       descriptionRule: [
         (v) => v.length <= 250 || "説明文は250文字以内で入力して下さい",
       ],
+      image: "",
       optionValues: ["", ""],
       optionRule: [
         (v) => !!v || "オプション名は必須です",
@@ -90,6 +99,9 @@ export default {
     toggle: function () {
       this.createAnketoDialog = !this.createAnketoDialog;
     },
+    pickImage: function () {
+      this.image = event.target.files[0];
+    },
     selectCategory: function (categoryId) {
       this.categoryId = categoryId;
     },
@@ -109,13 +121,25 @@ export default {
       }
     },
     createAnketo: async function () {
-      const payload = {
+      let formData = new FormData();
+      const params = {
         title: this.title,
         description: this.description,
+        image: this.image,
         anketoOptions: this.optionValues,
         categoryId: this.categoryId,
       };
-      await this.$store.dispatch("createAnketosAction", payload);
+
+      Object.entries(params).forEach(([key, value]) => {
+        if (Array.isArray(value)) {
+          value.forEach((v, i) => {
+            formData.append(key + "[]", v);
+          });
+        } else {
+          formData.append(key, value);
+        }
+      });
+      await this.$store.dispatch("createAnketosAction", formData);
       this.toggle();
     },
   },

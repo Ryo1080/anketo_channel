@@ -34,12 +34,18 @@ const createStore = () => {
         context.commit("updateAnketos", data.anketos);
       },
       async createAnketosAction(context, payload) {
-        await axios.post(`${baseUrl}/anketo`, {
-          title: payload.title,
-          description: payload.description,
-          anketoOptions: payload.anketoOptions,
-          categoryId: payload.categoryId
+        await axios.post(`${baseUrl}/anketo`, payload, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
         });
+
+        // await axios.post(`${baseUrl}/anketo`, {
+        //   title: payload.title,
+        //   description: payload.description,
+        //   anketoOptions: payload.anketoOptions,
+        //   categoryId: payload.categoryId
+        // });
         const { data } = await axios.get(`${baseUrl}/anketo`);
         context.commit("updateAnketos", data.anketos);
       },
