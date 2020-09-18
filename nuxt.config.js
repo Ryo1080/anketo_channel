@@ -90,5 +90,7 @@ export default {
   ** See https://nuxtjs.org/api/configuration-build/
   */
   build: {
-  }
+  },
+
+  dev: process.env.NODE_ENV !== 'production'
 }

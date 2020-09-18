@@ -1,6 +1,13 @@
 import Vuex from "vuex";
 import axios from "axios";
-const baseUrl = "http://localhost:3000/api/v1";
+const config = require("../nuxt.config.js");
+let baseUrl = "";
+
+if (config.default.dev) {
+  baseUrl = "http://localhost:3000/api/v1";
+} else {
+  baseUrl = "https://anketo-channel-api.com/api/v1";
+}
 
 const createStore = () => {
   return new Vuex.Store({
@@ -39,13 +46,6 @@ const createStore = () => {
             "Content-Type": "multipart/form-data"
           }
         });
-
-        // await axios.post(`${baseUrl}/anketo`, {
-        //   title: payload.title,
-        //   description: payload.description,
-        //   anketoOptions: payload.anketoOptions,
-        //   categoryId: payload.categoryId
-        // });
         const { data } = await axios.get(`${baseUrl}/anketo`);
         context.commit("updateAnketos", data.anketos);
       },

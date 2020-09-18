@@ -4,7 +4,7 @@ import { HorizontalBar } from "vue-chartjs";
 export default {
   props: ["chartLabels", "chartData"],
   mounted() {
-    this.$refs.canvas.height = this.data.labels.length * 40;
+    this.handleChartWidth();
     this.renderChart(this.data, this.options);
   },
   extends: HorizontalBar,
@@ -59,6 +59,21 @@ export default {
         },
       },
     };
+  },
+  methods: {
+    handleChartWidth: function () {
+      if (window.innerWidth < 400) {
+        this.$refs.canvas.height = this.data.labels.length * 80;
+      } else if (window.innerWidth < 500) {
+        this.$refs.canvas.height = this.data.labels.length * 70;
+      } else if (window.innerWidth < 600) {
+        this.$refs.canvas.height = this.data.labels.length * 60;
+      } else if (window.innerWidth < 700) {
+        this.$refs.canvas.height = this.data.labels.length * 50;
+      } else {
+        this.$refs.canvas.height = this.data.labels.length * 40;
+      }
+    },
   },
 };
 </script>
