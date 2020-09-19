@@ -5,9 +5,16 @@
         <v-subheader v-text="listTitle"></v-subheader>
         <div v-for="(anketo, index) in $store.state.anketos" :key="index">
           <v-list-item :key="'anketo' + anketo.id" @click="navigateAnketoPage(anketo.id)">
-            <v-list-item-avatar tile>
-              <v-img :src="defaultImage"></v-img>
-            </v-list-item-avatar>
+            <div v-if="anketo.image.url">
+              <v-list-item-avatar tile>
+                <v-img :src="anketo.image.url"></v-img>
+              </v-list-item-avatar>
+            </div>
+            <div v-else>
+              <v-list-item-avatar tile>
+                <v-img :src="defaultImage"></v-img>
+              </v-list-item-avatar>
+            </div>
 
             <v-list-item-content>
               <v-list-item-title v-html="anketo.title"></v-list-item-title>
