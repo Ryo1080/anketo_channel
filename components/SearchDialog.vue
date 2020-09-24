@@ -61,8 +61,8 @@ export default {
       ],
       sortTypes: [
         { sortName: "新着", sortId: 0 },
-        { sortName: "人気(１ヶ月)", sortId: 1 },
-        { sortName: "人気(全期間)", sortId: 2 },
+        { sortName: "投票数(１ヶ月)", sortId: 1 },
+        { sortName: "投票数(全期間)", sortId: 2 },
       ],
       sortId: 0,
       categories: [

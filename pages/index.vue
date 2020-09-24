@@ -20,6 +20,11 @@
               <v-list-item-title v-html="anketo.title"></v-list-item-title>
               <v-list-item-subtitle v-html="anketo.description"></v-list-item-subtitle>
             </v-list-item-content>
+            <v-list-item-action>
+              <v-list-item-icon>
+                <v-icon color="purple darken-2" left v-text="'mdi-poll'"></v-icon>{{anketo.voteCount}}
+              </v-list-item-icon>
+            </v-list-item-action>
           </v-list-item>
           <v-divider :key="index" :inset="true"></v-divider>
         </div>
