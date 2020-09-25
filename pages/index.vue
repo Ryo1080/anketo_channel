@@ -1,35 +1,30 @@
 <template>
   <div>
-    <v-container>
-      <v-list three-line>
-        <v-subheader v-text="listTitle"></v-subheader>
-        <div v-for="(anketo, index) in $store.state.anketos" :key="index">
-          <v-list-item :key="'anketo' + anketo.id" @click="navigateAnketoPage(anketo.id)">
-            <div v-if="anketo.image.url">
-              <v-list-item-avatar tile>
-                <v-img :src="anketo.image.url"></v-img>
-              </v-list-item-avatar>
-            </div>
-            <div v-else>
-              <v-list-item-avatar tile>
-                <v-img :src="defaultImage"></v-img>
-              </v-list-item-avatar>
-            </div>
+    <v-list three-line>
+      <v-subheader v-text="listTitle"></v-subheader>
+      <div v-for="(anketo, index) in $store.state.anketos" :key="index">
+        <v-list-item :key="'anketo' + anketo.id" @click="navigateAnketoPage(anketo.id)">
+          <div v-if="anketo.image.url">
+            <v-list-item-avatar tile>
+              <v-img :src="anketo.image.url"></v-img>
+            </v-list-item-avatar>
+          </div>
+          <div v-else>
+            <v-list-item-avatar tile>
+              <v-img :src="defaultImage"></v-img>
+            </v-list-item-avatar>
+          </div>
 
-            <v-list-item-content>
-              <v-list-item-title v-html="anketo.title"></v-list-item-title>
-              <v-list-item-subtitle v-html="anketo.description"></v-list-item-subtitle>
-            </v-list-item-content>
-            <v-list-item-action>
-              <v-list-item-icon>
-                <v-icon color="purple darken-2" left v-text="'mdi-poll'"></v-icon>{{anketo.voteCount}}
-              </v-list-item-icon>
-            </v-list-item-action>
-          </v-list-item>
-          <v-divider :key="index" :inset="true"></v-divider>
-        </div>
-      </v-list>
-    </v-container>
+          <v-list-item-content>
+            <v-list-item-subtitle v-html="anketo.title"></v-list-item-subtitle>
+          </v-list-item-content>
+          <v-list-item-action>
+            <v-list-item-action-text v-text="anketo.voteCount + '票'"></v-list-item-action-text>
+          </v-list-item-action>
+        </v-list-item>
+        <v-divider :key="index" :inset="true"></v-divider>
+      </div>
+    </v-list>
     <v-btn
       rounded
       color="primary"
