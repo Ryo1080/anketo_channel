@@ -11,7 +11,7 @@
 
       <v-container>
         <chart :chartLabels="optionNames" :chartData="voteCounts"></chart>
-        <v-radio-group v-model="selectedOption">
+        <v-radio-group v-model="selectedOptionId">
           <v-list>
             <v-list-item v-for="(option, index) in anketo.options" :key="index">
               <v-radio :label="option.option" :value="option.id"></v-radio>
@@ -33,6 +33,7 @@
       @click="toggleCreateCommentDialog"
     >コメントする</v-btn>
     <create-comment-dialog ref="createCommentDialog"></create-comment-dialog>
+    <alert-dialog ref="alertDialog" :alertMessage="'すでに投票しています'"></alert-dialog>
   </div>
 </template>
 
@@ -40,12 +41,14 @@
 import Chart from "~/components/Chart";
 import CommentList from "~/components/CommentList.vue";
 import CreateCommentDialog from "~/components/CreateCommentDialog.vue";
+import AlertDialog from "~/components/AlertDialog.vue";
 
 export default {
   components: {
     Chart,
     CommentList,
     CreateCommentDialog,
+    AlertDialog,
   },
   async asyncData({ params, store }) {
     await store.dispatch("getAnketoAction", params);
@@ -65,7 +68,7 @@ export default {
   },
   data() {
     return {
-      selectedOption: null,
+      selectedOptionId: null,
       anketo: this.$store.state.anketo,
     };
   },
@@ -73,9 +76,21 @@ export default {
     toggleCreateCommentDialog: function () {
       this.$refs.createCommentDialog.toggle();
     },
+    toggleAlertDialog: function () {
+      this.$refs.alertDialog.toggle();
+    },
     executeVote: async function () {
-      await this.$store.dispatch("executeVote", this.selectedOption);
-      location.reload();
+      const payload = {
+        anketoId: this.anketo.id,
+        selectedOptionId: this.selectedOptionId,
+      };
+      let res = await this.$store.dispatch("executeVote", payload);
+      if (res.data.alreadyVote) {
+        console.log("test");
+        this.toggleAlertDialog();
+      } else {
+        location.reload();
+      }
     },
   },
 };

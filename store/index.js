@@ -74,11 +74,8 @@ const createStore = () => {
         );
         context.commit("updateComments", commentsResponse.data.comments);
       },
-      async executeVote(context, selectedOption) {
-        await axios.post(`${baseUrl}/vote`, {
-          optionId: selectedOption,
-          ip: "test_id"
-        });
+      async executeVote(context, payload) {
+        return await axios.post(`${baseUrl}/vote`, payload);
       }
     }
   });
