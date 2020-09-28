@@ -49,7 +49,13 @@ export default {
   /*
    ** Nuxt.js modules
    */
-  modules: ["@nuxtjs/axios"],
+  modules: ["@nuxtjs/axios", "@nuxtjs/sitemap"],
+
+  sitemap: {
+    path: "/sitemap.xml",
+    hostname: "https://www.anketo-channel.com"
+  },
+
   /*
    ** vuetify module configuration
    ** https://github.com/nuxt-community/vuetify-module
