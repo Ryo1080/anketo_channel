@@ -45,7 +45,7 @@ export default {
             {
               ticks: {
                 beginAtZero: true,
-                stepSize: 5,
+                stepSize: 1,
               },
             },
           ],
@@ -54,6 +54,7 @@ export default {
               scaleLabel: {
                 display: true,
               },
+              ticks: { mirror: true, padding: -10 },
             },
           ],
         },
