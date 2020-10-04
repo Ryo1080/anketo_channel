@@ -1,6 +1,6 @@
 <template>
   <v-app dark>
-    <v-app-bar fixed app>
+    <v-app-bar fixed app class="elevation-0" color="white">
       <v-toolbar-title v-text="title" @click="navigateIndexPage" />
       <v-spacer></v-spacer>
 
@@ -45,5 +45,10 @@ export default {
 <style lang="scss" scoped>
 .v-application {
   font-family: "M PLUS Rounded 1c", sans-serif;
+
+  ::v-deep .v-toolbar__content {
+    border-bottom: solid 1px !important;
+    border-color: #e4e4e4 !important;
+  }
 }
 </style>
