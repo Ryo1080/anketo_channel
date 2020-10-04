@@ -49,11 +49,17 @@ export default {
   /*
    ** Nuxt.js modules
    */
-  modules: ["@nuxtjs/axios", "@nuxtjs/sitemap"],
+  modules: ["@nuxtjs/axios", "@nuxtjs/sitemap", "nuxt-webfontloader"],
 
   sitemap: {
     path: "/sitemap.xml",
     hostname: "https://www.anketo-channel.com"
+  },
+
+  webfontloader: {
+    google: {
+      families: ["M+PLUS+Rounded+1c&family=Noto+Sans+JP&display=swap"]
+    }
   },
 
   /*

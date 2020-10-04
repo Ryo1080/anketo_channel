@@ -41,3 +41,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.v-application {
+  font-family: "M PLUS Rounded 1c", sans-serif;
+}
+</style>
