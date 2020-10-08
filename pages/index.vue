@@ -3,7 +3,10 @@
     <v-list three-line>
       <v-subheader v-text="listTitle"></v-subheader>
       <div v-for="(anketo, index) in $store.state.anketos" :key="index">
-        <v-list-item :key="'anketo' + anketo.id" @click="navigateAnketoPage(anketo.id)">
+        <v-list-item
+          :key="'anketo' + anketo.id"
+          @click="navigateAnketoPage(anketo.id)"
+        >
           <div v-if="anketo.image.url">
             <v-list-item-avatar tile>
               <v-img :src="anketo.image.url"></v-img>
@@ -19,7 +22,9 @@
             <v-list-item-subtitle v-html="anketo.title"></v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
-            <v-list-item-action-text v-text="anketo.voteCount + '票'"></v-list-item-action-text>
+            <v-list-item-action-text
+              v-text="anketo.voteCount + '票'"
+            ></v-list-item-action-text>
           </v-list-item-action>
         </v-list-item>
         <v-divider :key="index" :inset="true"></v-divider>
@@ -33,7 +38,8 @@
       bottom
       large
       @click="toggleCreateAnketoDialog"
-    >アンケート作成</v-btn>
+      >アンケート作成</v-btn
+    >
     <create-anketo-dialog ref="createAnketoDialog"></create-anketo-dialog>
   </div>
 </template>
@@ -47,7 +53,12 @@ export default {
   },
   async asyncData({ params, store }) {
     if (!store.state.anketos.length) {
-      await store.dispatch("getAnketosAction");
+      const payload = {
+        keyword: "",
+        sortId: 2,
+        categoryId: 0,
+      };
+      await store.dispatch("searchAnketosAction", payload);
     }
   },
   data() {

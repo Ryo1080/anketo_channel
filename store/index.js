@@ -36,10 +36,6 @@ const createStore = () => {
         );
         context.commit("updateAnketo", anketoResponse.data);
       },
-      async getAnketosAction(context) {
-        const { data } = await axios.get(`${baseUrl}/anketo`);
-        context.commit("updateAnketos", data.anketos);
-      },
       async createAnketosAction(context, payload) {
         await axios.post(`${baseUrl}/anketo`, payload, {
           headers: {
