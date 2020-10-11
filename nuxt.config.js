@@ -45,7 +45,7 @@ export default {
   /*
    ** Nuxt.js dev-modules
    */
-  buildModules: ["@nuxtjs/vuetify"],
+  buildModules: ["@nuxtjs/vuetify", "@nuxtjs/google-analytics"],
   /*
    ** Nuxt.js modules
    */
@@ -60,6 +60,10 @@ export default {
     google: {
       families: ["M+PLUS+Rounded+1c&family=Noto+Sans+JP&display=swap"]
     }
+  },
+
+  googleAnalytics: {
+    id: 'UA-180261213-1'
   },
 
   /*
