@@ -2,7 +2,12 @@
   <v-app dark>
     <v-app-bar fixed app class="elevation-0" color="white">
       <v-spacer></v-spacer>
-      <v-toolbar-title center v-text="title" @click="navigateIndexPage" />
+      <v-toolbar-title
+        class="font-weight-bold"
+        center
+        v-text="title"
+        @click="navigateIndexPage"
+      />
       <v-spacer></v-spacer>
 
       <template
@@ -82,6 +87,11 @@ export default {
   ::v-deep .v-tabs-bar__content {
     border-bottom: solid 1px !important;
     border-color: #e4e4e4 !important;
+  }
+
+  .v-toolbar__title {
+    cursor: pointer;
+    font-size: 1.5rem;
   }
 }
 </style>
