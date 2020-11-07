@@ -5,7 +5,12 @@
       <v-form ref="form" v-model="valid">
         <v-row class="mx-2">
           <v-col cols="12">
-            <v-text-field v-model="title" label="タイトル" :rules="titleRule" single-line></v-text-field>
+            <v-text-field
+              v-model="title"
+              label="タイトル"
+              :rules="titleRule"
+              single-line
+            ></v-text-field>
           </v-col>
           <v-col cols="12">
             <v-textarea
@@ -33,8 +38,12 @@
               :rules="optionRule"
             ></v-text-field>
           </v-col>
-          <v-btn class="ma-2" outlined color="indigo" @click="addOption">選択肢追加</v-btn>
-          <v-btn class="ma-2" outlined color="error" @click="removeOption">選択肢削除</v-btn>
+          <v-btn class="ma-2" outlined color="indigo" @click="addOption"
+            >選択肢追加</v-btn
+          >
+          <v-btn class="ma-2" outlined color="error" @click="removeOption"
+            >選択肢削除</v-btn
+          >
         </v-row>
 
         <v-card-text>
@@ -46,13 +55,16 @@
               v-for="category in categories"
               :key="category.categoryId"
               @click="selectCategory(category.categoryId)"
-            >{{ category.categoryName }}</v-chip>
+              >{{ category.categoryName }}</v-chip
+            >
           </v-chip-group>
         </v-card-text>
       </v-form>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn text color="primary" @click="createAnketoDialog = false">キャンセル</v-btn>
+        <v-btn text color="primary" @click="createAnketoDialog = false"
+          >キャンセル</v-btn
+        >
         <v-btn text @click="validate">作成</v-btn>
       </v-card-actions>
     </v-card>
@@ -139,7 +151,16 @@ export default {
           formData.append(key, value);
         }
       });
+
+      const payload = {
+        keyword: "",
+        sortId: 0,
+        categoryId: 0,
+      };
+
       await this.$store.dispatch("createAnketosAction", formData);
+      await this.$store.dispatch("searchAnketosAction", payload);
+      await this.$store.dispatch("changeTab", { tabIndex: 1 });
       this.toggle();
     },
   },

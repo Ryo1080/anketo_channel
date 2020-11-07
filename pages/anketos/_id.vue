@@ -86,7 +86,6 @@ export default {
       };
       let res = await this.$store.dispatch("executeVote", payload);
       if (res.data.alreadyVote) {
-        console.log("test");
         this.toggleAlertDialog();
       } else {
         location.reload();

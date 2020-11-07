@@ -14,19 +14,19 @@
         v-slot:extension
         v-if="$route.name === 'index' || $route.name === 'usage'"
       >
-        <v-tabs centered>
-          <v-tab @click="search(2)"
+        <v-tabs centered v-model="$store.state.tabIndex">
+          <v-tab @click="search(2)" key="0"
             ><v-icon left color="yellow darken-2">mdi-crown</v-icon>人気</v-tab
           >
-          <v-tab @click="search(0)"
+          <v-tab @click="search(0)" key="1"
             ><v-icon left color="green darken-2">mdi-clock-outline</v-icon
             >新着</v-tab
           >
-          <v-tab @click="toggleSearchDialog"
+          <v-tab @click="toggleSearchDialog" key="2"
             ><v-icon left color="purple darken-2">mdi-magnify</v-icon
             >探す</v-tab
           >
-          <v-tab @click="navigateUsagePage"
+          <v-tab @click="navigateUsagePage" key="3"
             ><v-icon left color="orange darken-2"
               >mdi-help-circle-outline</v-icon
             >使い方</v-tab

@@ -15,7 +15,8 @@ const createStore = () => {
       return {
         anketo: {},
         anketos: [],
-        comments: []
+        comments: [],
+        tabIndex: 0
       };
     },
     mutations: {
@@ -27,6 +28,9 @@ const createStore = () => {
       },
       updateComments: function(state, comments) {
         state.comments = comments;
+      },
+      updateTab: function(state, tabIndex) {
+        state.tabIndex = tabIndex;
       }
     },
     actions: {
@@ -42,8 +46,6 @@ const createStore = () => {
             "Content-Type": "multipart/form-data"
           }
         });
-        const { data } = await axios.get(`${baseUrl}/anketo`);
-        context.commit("updateAnketos", data.anketos);
       },
       async searchAnketosAction(context, payload) {
         const { data } = await axios.get(`${baseUrl}/anketo/search`, {
@@ -72,6 +74,9 @@ const createStore = () => {
       },
       async executeVote(context, payload) {
         return await axios.post(`${baseUrl}/vote`, payload);
+      },
+      async changeTab(context, payload) {
+        context.commit("updateTab", payload.tabIndex);
       }
     }
   });
