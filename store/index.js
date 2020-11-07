@@ -1,13 +1,4 @@
 import Vuex from "vuex";
-import axios from "axios";
-const config = require("../nuxt.config.js");
-let baseUrl = "";
-
-if (config.default.dev) {
-  baseUrl = "http://localhost:3000/api/v1";
-} else {
-  baseUrl = "https://anketo-channel-api.com/api/v1";
-}
 
 const createStore = () => {
   return new Vuex.Store({
@@ -35,45 +26,43 @@ const createStore = () => {
     },
     actions: {
       async getAnketoAction(context, payload) {
-        const anketoResponse = await axios.get(
-          `${baseUrl}/anketo/${payload.id}`
-        );
-        context.commit("updateAnketo", anketoResponse.data);
+        const anketoResponse = await this.$axios.$get(`/anketo/${payload.id}`);
+        context.commit("updateAnketo", anketoResponse);
       },
       async createAnketosAction(context, payload) {
-        await axios.post(`${baseUrl}/anketo`, payload, {
+        await this.$axios.$post(`/anketo`, payload, {
           headers: {
             "Content-Type": "multipart/form-data"
           }
         });
       },
       async searchAnketosAction(context, payload) {
-        const { data } = await axios.get(`${baseUrl}/anketo/search`, {
+        const searchResult = await this.$axios.$get(`/anketo/search`, {
           params: {
             keyword: payload.keyword,
             sortId: payload.sortId,
             categoryId: payload.categoryId
           }
         });
-        context.commit("updateAnketos", data.anketos);
+        context.commit("updateAnketos", searchResult.anketos);
       },
       async getCommentsAction(context, payload) {
-        const commentsResponse = await axios.get(
-          `${baseUrl}/anketo/${payload.id}/comment`
+        const commentsResponse = await this.$axios.$get(
+          `/anketo/${payload.id}/comment`
         );
-        context.commit("updateComments", commentsResponse.data.comments);
+        context.commit("updateComments", commentsResponse.comments);
       },
       async createCommentsAction(context, payload) {
-        await axios.post(`${baseUrl}/anketo/${payload.anketoId}/comment`, {
+        await this.$axios.$post(`/anketo/${payload.anketoId}/comment`, {
           comment: payload.comment
         });
-        const commentsResponse = await axios.get(
-          `${baseUrl}/anketo/${payload.anketoId}/comment`
+        const commentsResponse = await this.$axios.$get(
+          `/anketo/${payload.anketoId}/comment`
         );
-        context.commit("updateComments", commentsResponse.data.comments);
+        context.commit("updateComments", commentsResponse.comments);
       },
       async executeVote(context, payload) {
-        return await axios.post(`${baseUrl}/vote`, payload);
+        return await this.$axios.$post(`/vote`, payload);
       },
       async changeTab(context, payload) {
         context.commit("updateTab", payload.tabIndex);

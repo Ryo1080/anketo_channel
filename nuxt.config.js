@@ -51,6 +51,13 @@ export default {
    */
   modules: ["@nuxtjs/axios", "@nuxtjs/sitemap", "nuxt-webfontloader"],
 
+  axios: {
+    baseURL:
+      process.env.NODE_ENV !== "production"
+        ? "http://localhost:3000/api/v1"
+        : "https://anketo-channel-api.com/api/v1"
+  },
+
   sitemap: {
     path: "/sitemap.xml",
     hostname: "https://www.anketo-channel.com"
@@ -63,7 +70,7 @@ export default {
   },
 
   googleAnalytics: {
-    id: 'UA-180261213-1'
+    id: "UA-180261213-1"
   },
 
   /*
