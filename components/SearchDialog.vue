@@ -98,7 +98,7 @@ export default {
         sortId: this.sortId,
         categoryId: this.categoryId,
       };
-      await this.$store.dispatch("searchAnketosAction", payload);
+      await this.$store.dispatch("anketo/searchAnketosAction", payload);
       this.toggle();
     },
   },

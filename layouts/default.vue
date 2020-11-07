@@ -14,7 +14,7 @@
         v-slot:extension
         v-if="$route.name === 'index' || $route.name === 'usage'"
       >
-        <v-tabs centered v-model="$store.state.tabIndex">
+        <v-tabs centered v-model="tabIndex">
           <v-tab @click="search(2)" key="0"
             ><v-icon left color="yellow darken-2">mdi-crown</v-icon>人気</v-tab
           >
@@ -73,8 +73,18 @@ export default {
         sortId: sortId,
         categoryId: 0,
       };
-      await this.$store.dispatch("searchAnketosAction", payload);
+      await this.$store.dispatch("anketo/searchAnketosAction", payload);
       this.$router.push("/");
+    },
+  },
+  computed: {
+    tabIndex: {
+      get() {
+        return this.$store.state.tab.tabIndex;
+      },
+      set(value) {
+        this.$store.dispatch("tab/changeTab", value);
+      },
     },
   },
 };

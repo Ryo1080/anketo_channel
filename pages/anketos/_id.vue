@@ -2,8 +2,8 @@
   <div>
     <v-container>
       <v-container>
-        <h1 class="text-center">{{anketo.title}}</h1>
-        <p class="text-center">{{anketo.description}}</p>
+        <h1 class="text-center">{{ anketo.title }}</h1>
+        <p class="text-center">{{ anketo.description }}</p>
         <div v-if="anketo.image">
           <v-img :src="anketo.image" aspect-ratio="2.0" contain></v-img>
         </div>
@@ -22,7 +22,7 @@
       </v-container>
     </v-container>
     <hr />
-    <comment-list :comments="$store.state.comments"></comment-list>
+    <comment-list :comments="$store.state.comment.comments"></comment-list>
     <v-btn
       rounded
       color="primary"
@@ -31,9 +31,13 @@
       bottom
       large
       @click="toggleCreateCommentDialog"
-    >コメントする</v-btn>
+      >コメントする</v-btn
+    >
     <create-comment-dialog ref="createCommentDialog"></create-comment-dialog>
-    <alert-dialog ref="alertDialog" :alertMessage="'すでに投票しています'"></alert-dialog>
+    <alert-dialog
+      ref="alertDialog"
+      :alertMessage="'すでに投票しています'"
+    ></alert-dialog>
   </div>
 </template>
 
@@ -51,17 +55,17 @@ export default {
     AlertDialog,
   },
   async asyncData({ params, store }) {
-    await store.dispatch("getAnketoAction", params);
-    await store.dispatch("getCommentsAction", params);
+    await store.dispatch("anketo/getAnketoAction", params);
+    await store.dispatch("comment/getCommentsAction", params);
   },
   computed: {
     optionNames: function () {
-      return this.$store.state.anketo.options.map(function (option) {
+      return this.$store.state.anketo.anketo.options.map(function (option) {
         return option.option;
       });
     },
     voteCounts: function () {
-      return this.$store.state.anketo.options.map(function (option) {
+      return this.$store.state.anketo.anketo.options.map(function (option) {
         return option.votes;
       });
     },
@@ -69,7 +73,7 @@ export default {
   data() {
     return {
       selectedOptionId: null,
-      anketo: this.$store.state.anketo,
+      anketo: this.$store.state.anketo.anketo,
     };
   },
   methods: {
@@ -84,7 +88,9 @@ export default {
         anketoId: this.anketo.id,
         selectedOptionId: this.selectedOptionId,
       };
-      let res = await this.$store.dispatch("executeVote", payload);
+
+      let res = await this.$axios.$post(`/vote`, payload);
+
       if (res.alreadyVote) {
         this.toggleAlertDialog();
       } else {

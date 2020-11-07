@@ -158,9 +158,9 @@ export default {
         categoryId: 0,
       };
 
-      await this.$store.dispatch("createAnketosAction", formData);
-      await this.$store.dispatch("searchAnketosAction", payload);
-      await this.$store.dispatch("changeTab", { tabIndex: 1 });
+      await this.$store.dispatch("anketo/createAnketosAction", formData);
+      await this.$store.dispatch("anketo/searchAnketosAction", payload);
+      await this.$store.dispatch("tab/changeTab", { tabIndex: 1 });
       this.toggle();
     },
   },

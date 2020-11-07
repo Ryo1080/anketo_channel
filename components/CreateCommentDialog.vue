@@ -54,7 +54,7 @@ export default {
         anketoId: this.$route.params.id,
         comment: this.comment,
       };
-      await this.$store.dispatch("createCommentsAction", payload);
+      await this.$store.dispatch("comment/createCommentsAction", payload);
       this.toggle();
     },
   },

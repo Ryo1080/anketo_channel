@@ -2,7 +2,7 @@
   <div>
     <v-list three-line>
       <v-subheader v-text="listTitle"></v-subheader>
-      <div v-for="(anketo, index) in $store.state.anketos" :key="index">
+      <div v-for="(anketo, index) in $store.state.anketo.anketos" :key="index">
         <v-list-item
           :key="'anketo' + anketo.id"
           @click="navigateAnketoPage(anketo.id)"
@@ -52,13 +52,13 @@ export default {
     CreateAnketoDialog,
   },
   async asyncData({ params, store }) {
-    if (!store.state.anketos.length) {
+    if (!store.state.anketo.anketos.length) {
       const payload = {
         keyword: "",
         sortId: 2,
         categoryId: 0,
       };
-      await store.dispatch("searchAnketosAction", payload);
+      await store.dispatch("anketo/searchAnketosAction", payload);
     }
   },
   data() {
